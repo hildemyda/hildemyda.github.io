@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hildessic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/198px-Spotify_logo_without_text.svg.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-neutral-900 text-neutral-100 flex flex-col min-h-screen">
+
+    <div class="flex flex-grow">
+        <aside class="w-64 bg-black p-6 flex-shrink-0 hidden md:flex flex-col sticky top-0 h-screen">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-white">
+                    <i class="fab fa-spotify text-green-500 mr-2"></i> Lib-Audios
+                </h2>
+            </div>
+            <nav class="flex-grow">
+                <ul>
+                    <li class="mb-4">
+                        <a href="#" class="flex items-center text-neutral-300 hover:text-white transition-colors duration-200">
+                            <i class="fas fa-home text-xl mr-4"></i>
+                            <span class="font-semibold text-lg">Beranda</span>
+                        </a>
+                    </li>
+                    <li class="mb-4">
+                        <a href="#" class="flex items-center text-neutral-300 hover:text-white transition-colors duration-200">
+                            <i class="fas fa-search text-xl mr-4"></i>
+                            <span class="font-semibold text-lg">Cari</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main id="main-content-area" class="flex-grow bg-neutral-800 p-6 overflow-y-auto">
+            <header class="mb-8">
+                <h1 class="text-3xl font-bold text-white mb-1">Hildemyda's m4a</h1>
+                <p class="text-neutral-400 mt-0">Gatau simpen di mana, sini aja.</p>
+            </header>
+
+            <div class="mb-8">
+                <div class="relative">
+                    <input type="text" id="search-input" placeholder="Cari lagu atau artis..." class="w-full p-3 pl-10 rounded-full bg-neutral-700 text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400"></i>
+                </div>
+            </div>
+
+            <section class="mb-8">
+                <div class="flex items-center mb-4">
+                    <button id="back-to-main-view-btn" class="hidden text-neutral-400 hover:text-white transition-colors text-xl mr-3">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h2 id="current-view-title" class="text-2xl font-bold text-white">Beranda</h2>
+                </div>
+
+                <div id="initial-songs-display" class="playlist-scrollable grid grid-cols-1 gap-3 mb-8">
+                </div>
+
+                <hr id="playlist-separator" class="border-t border-neutral-700 my-8">
+
+                <h2 id="playlists-section-title" class="text-2xl font-bold text-white mb-4">Playlist</h2>
+                <div id="playlists-display" class="playlist-scrollable grid grid-cols-1 gap-3">
+                </div>
+
+                <div id="songs-list-display" class="hidden playlist-scrollable grid grid-cols-1 gap-3">
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="player-bar" class="fixed bottom-0 left-0 right-0 bg-neutral-900/50 border-t border-neutral-700 p-4 flex flex-col md:flex-row items-center justify-center z-40 backdrop-blur-md transition-transform duration-300 ease-in-out">
+        <div id="toggle-player-button-wrapper" class="absolute -top-8 left-3 z-50">
+            <button id="toggle-player-btn" class="w-10 h-10 bg-neutral-700 rounded-lg flex items-center justify-center text-neutral-400 hover:text-white transition-colors shadow-lg">
+                <i class="fas fa-chevron-up"></i>
+            </button>
+        </div>
+
+        <div class="flex items-center flex-1 mb-4 md:mb-0">
+            <div class="hidden md:block w-16 h-16 bg-neutral-700 rounded-md overflow-hidden flex-shrink-0 mr-4 relative">
+                <img id="album-art" src="https://placehold.co/64x64/374151/d1d5db?text=No+Art" alt="Album Art" class="w-full h-full object-cover">
+            </div>
+            <div class="flex-grow overflow-hidden text-center md:text-left">
+                <p id="song-title" class="text-white font-semibold truncate text-base md:text-lg">Judul-Lagu</p>
+                <p id="artist-name" class="text-neutral-400 text-xs md:text-sm truncate">Nama-Artis</p>
+            </div>
+        </div>
+
+        <div class="flex flex-col items-center flex-1 mb-4 md:mb-0">
+            <div class="controls flex justify-center items-center space-x-6 mb-3">
+                <button id="repeat-one-btn" class="control-btn text-neutral-400 hover:text-white transition-colors text-xl">
+                    <i class="fas fa-redo-alt"></i>
+                </button>
+                <button id="prev-btn" class="control-btn text-neutral-400 hover:text-white transition-colors text-xl">
+                    <i class="fas fa-backward"></i>
+                </button>
+                <button id="play-pause-btn" class="control-btn text-white hover:text-green-500 transition-colors text-3xl bg-neutral-700 rounded-full w-12 h-12 flex items-center justify-center shadow-md">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button id="next-btn" class="control-btn text-neutral-400 hover:text-white transition-colors text-xl">
+                    <i class="fas fa-forward"></i>
+                </button>
+                <button id="toggle-lyrics-btn" class="control-btn text-neutral-400 hover:text-white transition-colors text-xl">
+                    <i class="fas fa-file-alt"></i>
+                </button>
+            </div>
+            <div class="progress-bar-container w-full flex items-center space-x-2">
+                <span id="current-time" class="text-xs text-neutral-400">0:00</span>
+                <input type="range" id="progress-bar" value="0" min="0" max="100" class="flex-grow">
+                <span id="duration" class="text-xs text-neutral-400">0:00</span>
+            </div>
+        </div>
+
+        <div class="hidden md:flex flex-1 mb-4 md:mb-0"></div>
+    </div>
+
+    <div id="message-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="modal-title">Pesan</h3>
+            <p id="modal-message">Ini adalah pesan contoh.</p>
+            <button id="modal-close-btn">Tutup</button>
+        </div>
+    </div>
+
+    <div id="loading-modal" class="modal">
+        <div class="modal-content loading-modal-content">
+            <h3 class="text-white text-2xl mb-4">Memuat audio..</h3>
+            <div class="loader"></div>
+        </div>
+    </div>
+
+    <div id="lyrics-modal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <h3 id="lyrics-modal-title" class="text-2xl font-bold text-white text-left">Lyrics</h3>
+                    <p id="lyrics-song-artist-info" class="text-neutral-400 text-sm text-left mt-0.5"></p>
+                </div>
+                <button id="lyrics-modal-close-btn" class="text-neutral-400 hover:text-white text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="lyrics-modal-content" class="text-neutral-300 whitespace-pre-wrap playlist-scrollable max-h-96 overflow-y-auto text-left">
+            </div>
+        </div>
+    </div>
+
+    <script src="./src/songs.js"></script> 
+    <script src="script.js"></script>
+</body>
+</html>

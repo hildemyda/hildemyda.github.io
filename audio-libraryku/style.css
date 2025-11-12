@@ -1,0 +1,215 @@
+/* style.css */
+/* Mengatur font Inter secara global */
+@import url('https://rsms.me/inter/inter.css');
+html { font-family: 'Inter', sans-serif; }
+@supports (font-variation-settings: normal) {
+    html { font-family: 'Inter var', sans-serif; }
+}
+
+/* Styling kustom untuk slider progress bar */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none; /* Tambahan ini */
+    width: 100%;
+    height: 6px; /* Lebih tipis seperti Spotify */
+    background: #4a4a4a;
+    outline: none;
+    opacity: 0.8;
+    transition: opacity .2s;
+    border-radius: 3px;
+}
+
+input[type="range"]:hover {
+    opacity: 1;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px; /* Diperkecil dari 16px */
+    height: 10px; /* Diperkecil dari 16px */
+    border-radius: 50%;
+    background: #1DB954; /* Warna hijau Spotify */
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    margin-top: -1px; /* Sesuaikan posisi thumb agar tetap di tengah */
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #1DB954;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Custom scrollbar for playlist */
+.playlist-scrollable::-webkit-scrollbar {
+    width: 8px;
+}
+
+.playlist-scrollable::-webkit-scrollbar-track {
+    background: #121212; /* Warna latar belakang scrollbar */
+    border-radius: 10px;
+}
+
+.playlist-scrollable::-webkit-scrollbar-thumb {
+    background: #282828; /* Warna thumb scrollbar */
+    border-radius: 10px;
+}
+
+.playlist-scrollable::-webkit-scrollbar-thumb:hover {
+    background: #535353;
+}
+
+/* Styling untuk pesan modal */
+.modal {
+    display: none; /* Sembunyikan secara default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+    opacity: 0; /* Initial opacity for fade-in */
+    transition: opacity 0.3s ease-in-out; /* Transition for fade effect - FASTER */
+}
+
+.modal.modal-visible {
+    opacity: 1; /* Full opacity when visible */
+}
+
+/* General modal content styling */
+.modal-content {
+    background-color: #282828; /* Warna latar belakang modal */
+    margin: auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
+    width: 90%;
+    max-width: 500px; /* Lebar maksimum untuk modal lirik */
+    text-align: center;
+    color: #e0e0e0;
+    display: flex; /* Untuk tata letak internal modal */
+    flex-direction: column; /* Untuk tata letak internal modal */
+}
+
+/* Styling khusus untuk konten modal loading */
+.loading-modal-content {
+    background-color: transparent; /* Hapus latar belakang */
+    box-shadow: none; /* Hapus bayangan */
+    padding: 10px; /* Sesuaikan padding agar tidak terlalu besar */
+}
+
+.modal-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #1DB954; /* Warna hijau Spotify */
+}
+
+.modal-content p {
+    font-size: 1rem;
+    margin-bottom: 25px;
+}
+
+/* Specific styling for the message modal's close button */
+#modal-close-btn {
+    background-color: #1DB954; /* Warna hijau Spotify */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+#modal-close-btn:hover {
+    background-color: #1ED760; /* Hijau lebih terang saat hover */
+}
+
+/* Custom loader from user */
+.loader {
+    height: 4px;
+    width: 130px;
+    --c:no-repeat linear-gradient(#1ED760 0 0);
+    background: var(--c),var(--c),#b8fcd2;
+    background-size: 60% 100%;
+    animation: l16 3s infinite;
+    margin: 0 auto; /* Center the loader */
+}
+@keyframes l16 {
+    0%    {background-position:-150% 0,-150% 0}
+    66%   {background-position: 250% 0,-150% 0}
+    100% {background-position: 250% 0, 250% 0}
+}
+
+/* Music Bar Animation */
+.music-bar-animation { /* Changed from ID to class */
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center; /* Posisikan bar di tengah secara vertikal */
+    justify-content: center; /* Posisikan bar di tengah secara horizontal */
+    gap: 0.2rem; /* Jarak antar bar */
+    background-color: rgba(0,0,0,0.5); /* Latar belakang semi-transparan */
+    border-radius: 0.375rem; /* rounded-md from Tailwind */
+    opacity: 0; /* Initial opacity for fade-in/out */
+    transition: opacity 0.2s ease-in-out; /* Transition for fade effect */
+    pointer-events: none; /* Izinkan klik melewati ke album art jika diperlukan */
+}
+
+.music-bar-line {
+    width: 4px; /* Lebar setiap bar, dibuat lebih tebal */
+    height: 20%; /* Tinggi awal, akan diskalakan */
+    background-color: #FFFFFF; /* Warna biru */
+    border-radius: 1px; /* Sudut sedikit membulat untuk bar */
+    animation: bounce 1.2s ease-in-out infinite alternate; /* Animasi untuk memantul */
+    transform-origin: center; /* Pastikan bar memantul dari tengah */
+}
+
+/* Penundaan untuk setiap bar untuk membuat efek gelombang */
+.music-bar-line:nth-child(1) { animation-delay: 0s; }
+.music-bar-line:nth-child(2) { animation-delay: 0.2s; }
+.music-bar-line:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+    0%, 100% {
+        transform: scaleY(0.4); /* Mulai dan berakhir pada ketinggian pendek, disesuaikan untuk bold */
+    }
+    50% {
+        transform: scaleY(1.2); /* Mencapai ketinggian penuh di tengah, sedikit lebih tinggi untuk bold */
+    }
+}
+
+/* Styling khusus untuk modal lirik agar transparan */
+#lyrics-modal .modal-content {
+    background-color: transparent; /* Hapus latar belakang */
+    box-shadow: none; /* Hapus bayangan */
+    padding: 0; /* Hapus padding */
+    border-radius: 0; /* Hapus border-radius */
+    max-width: 600px; /* Sesuaikan lebar maksimum agar lirik lebih mudah dibaca */
+}
+
+#lyrics-modal .modal-content h3 {
+    color: #e0e0e0; /* Pastikan judul tetap terlihat */
+    margin-bottom: 0; /* Hapus margin bawah default dari h3 */
+}
+
+#lyrics-modal-content {
+    background-color: transparent; /* Pastikan konten lirik itu sendiri juga transparan */
+    padding: 20px; /* Tambahkan padding agar lirik tidak terlalu dekat dengan tepi */
+    border-radius: 10px; /* Tambahkan sedikit border-radius agar terlihat lebih baik */
+}
+
+/* Menyesuaikan jarak antara "Lyrics" dan "Artist - Judul Lagu" */
+#lyrics-song-artist-info {
+    margin-top: 0.25rem; /* Tambahkan sedikit margin atas untuk jarak, atau gunakan negatif margin jika perlu */
+    margin-bottom: 0; /* Hapus margin bawah default dari p */
+}
